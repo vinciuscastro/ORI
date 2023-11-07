@@ -1,0 +1,14 @@
+=== DESCRIÇÃO DOS ARQUIVOS FORNECIDOS ===
+
+- ORI_T01_HEADER.c: este arquivo deve conter a implementação de todas as funções/operações. *** ESTE É O ÚNICO ARQUIVO QUE DEVE SER EDITADO ***
+
+- ORI_T01_HEADER.h: arquivo de cabeçalho, com constantes, registros, tipos definidos, protótipos e algumas funções. *** ESTE ARQUIVO NÃO DEVE SER ALTERADO ***
+
+- ORI_T01.c: arquivo com a função principal. *** ESTE ARQUIVO NÃO DEVE SER ALTERADO ***
+
+- makefile: script de compilação e geração do executável
+
+
+=== USO E SUBMISSÃO DA SOLUÇÃO ===
+
+Após implementar as funções no arquivo ORI_T01_HEADER.c e testar com os casos de teste fornecidos, faça a cópia do seu conteúdo e cole no AVA.

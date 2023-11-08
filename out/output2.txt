@@ -1,0 +1,42 @@
+Indice corredores_idx criado com sucesso!
+Indice veiculos_idx criado com sucesso!
+Indice pistas_idx criado com sucesso!
+Indice corridas_idx criado com sucesso!
+Indice nome_pista_idx criado com sucesso!
+Indice preco_veiculo_idx criado com sucesso!
+Indice corredor_veiculos_idx criado com sucesso!
+INSERT INTO corredores VALUES ('81099655877', 'Max Vers Tappa', 'Tappa');
+OK
+INSERT INTO corredores VALUES ('27326510707', 'Lewis Ran Miltaum', 'Ran Miltaum');
+OK
+INSERT INTO corredores VALUES ('72176828461', 'Sebastian Venceu', 'Turbo Vencido');
+OK
+INSERT INTO corredores VALUES ('72176828461', 'Kaprice Oh-tima Kellianne', 'Ótima');
+ERRO: Ja existe um registro com a chave 72176828461
+INSERT INTO veiculos VALUES ('McLaren', 'Sneeker', 'Bombas de chuleh', 200, 420, 1788, 20000);
+OK
+INSERT INTO veiculos VALUES ('BMW', 'Bumble V', 'Mel na pista', 210, 200, 1000, 25000);
+OK
+INSERT INTO veiculos VALUES ('Aston Martin', 'Blooper', 'Jato de tinta preta', 180, 200, 500, 15000);
+OK
+SELECT * FROM corredores ORDER BY id_corredor ASC;
+27326510707, Lewis Ran Miltaum, Ran Miltaum, 202103260628, 0.00
+72176828461, Sebastian Venceu, Turbo Vencido, 202104041659, 0.00
+81099655877, Max Vers Tappa, Tappa, 202103181430, 0.00
+\echo file ARQUIVO_CORREDORES
+81099655877;Max Vers Tappa;Tappa;202103181430;0000000000.00;;#############################################################################################################27326510707;Lewis Ran Miltaum;Ran Miltaum;202103260628;0000000000.00;;####################################################################################################72176828461;Sebastian Venceu;Turbo Vencido;202104041659;0000000000.00;;###################################################################################################
+\echo index corredores_idx
+27326510707, 1
+72176828461, 2
+81099655877, 0
+\echo file ARQUIVO_VEICULOS
+0000000;McLaren;Sneeker;Bombas de chuleh;0200;0420;1788;0000020000.00;###########################################################0000001;BMW;Bumble V;Mel na pista;0210;0200;1000;0000025000.00;##################################################################0000002;Aston Martin;Blooper;Jato de tinta preta;0180;0200;0500;0000015000.00;###################################################
+\echo index veiculos_idx
+0000000, 0
+0000001, 1
+0000002, 2
+\echo index preco_veiculo_idx
+15000.00, 0000002
+20000.00, 0000000
+25000.00, 0000001
+\q

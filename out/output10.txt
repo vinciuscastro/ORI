@@ -1,0 +1,133 @@
+Indice corredores_idx criado com sucesso!
+Indice veiculos_idx criado com sucesso!
+Indice pistas_idx criado com sucesso!
+Indice corridas_idx criado com sucesso!
+Indice nome_pista_idx criado com sucesso!
+Indice preco_veiculo_idx criado com sucesso!
+Indice corredor_veiculos_idx criado com sucesso!
+INSERT INTO corredores VALUES ('40566991311', 'Arnaldo Turbinaldo', 'TurbiArnaldo');
+OK
+INSERT INTO corredores VALUES ('87424176943', 'Chris Bumstead', 'CBUM');
+OK
+INSERT INTO corredores VALUES ('67912443801', 'Ramon Queiroz', 'Ramon Dino');
+OK
+INSERT INTO corredores VALUES ('23808302585', 'Rafael Fernandes', 'Raflash');
+OK
+INSERT INTO corredores VALUES ('99022760081', 'Marco Souza', 'Marcotrafego');
+OK
+INSERT INTO veiculos VALUES ('Lesta', 'Standard', 'Sem poderes', 40, 5, 200, 0);
+OK
+INSERT INTO veiculos VALUES ('Lesta', 'Model ML', 'Piloto automatico', 70, 15, 352, 122199);
+OK
+INSERT INTO veiculos VALUES ('Tiaf', 'Defenestrator', 'Defenestra cascas de banana', 60, 4, 250, 3000);
+OK
+UPDATE corredores SET saldo = saldo + 10000 WHERE id_corredor = '40566991311';
+OK
+UPDATE corredores SET saldo = saldo + 3000 WHERE id_corredor = '87424176943';
+OK
+UPDATE corredores SET veiculos = array_append(veiculos, '0000000') WHERE id_corredor = '40566991311';
+OK
+UPDATE corredores SET veiculos = array_append(veiculos, '0000000') WHERE id_corredor = '87424176943';
+OK
+UPDATE corredores SET veiculos = array_append(veiculos, '0000000') WHERE id_corredor = '67912443801';
+OK
+UPDATE corredores SET veiculos = array_append(veiculos, '0000000') WHERE id_corredor = '23808302585';
+OK
+UPDATE corredores SET veiculos = array_append(veiculos, '0000000') WHERE id_corredor = '99022760081';
+OK
+UPDATE corredores SET veiculos = array_append(veiculos, '0000001') WHERE id_corredor = '40566991311';
+ERRO: Saldo insuficiente
+UPDATE corredores SET veiculos = array_append(veiculos, '0000002') WHERE id_corredor = '87424176943';
+OK
+INSERT INTO pistas VALUES ('Campus Sanca', 4, 1250, 560);
+OK
+INSERT INTO pistas VALUES ('Campus Bells Pond', 3, 200, 90);
+OK
+INSERT INTO pistas VALUES ('Cachoeira Misteriosa', 2, 250, 136);
+OK
+INSERT INTO pistas VALUES ('Campus Sorocity', 5, 300, 140);
+OK
+INSERT INTO pistas VALUES ('Pista treinamento', 1, 200, 80)
+OK
+INSERT INTO corridas VALUES ('00000000', '202301011007', '570026317309902276008167912443801405669913118742417694323808302585', '000000000000000000000000000000000000000000');
+ERRO: Registro nao encontrado
+INSERT INTO corredores VALUES ('57002631730', 'Van Helsing Junior', 'Tio da Van');
+OK
+UPDATE corredores SET veiculos = array_append(veiculos, '0000000') WHERE id_corredor = '57002631730';
+OK
+INSERT INTO corridas VALUES ('00000000', '202301011007', '570026317309902276008167912443801405669913118742417694323808302585', '000000000000000000000000000000000000000000');
+OK
+INSERT INTO corridas VALUES ('00000001', '202302211007', '405669913118742417694367912443801238083025859902276008157002631730', '000000100000020000001000000100000000000001');
+ERRO: O corredor 40566991311 nao possui veiculo 0000001
+ERRO: O corredor 67912443801 nao possui veiculo 0000001
+ERRO: O corredor 23808302585 nao possui veiculo 0000001
+ERRO: O corredor 57002631730 nao possui veiculo 0000001
+INSERT INTO corridas VALUES ('00000001', '202302211007', '405669913118742417694367912443801238083025859902276008157002631730', '000000000000020000000000000000000000000000');
+OK
+SELECT * FROM pistas WHERE nome = 'Fonte do Sapo';
+Registros percorridos: 2 4 3
+ERRO: Registro nao encontrado
+SELECT * FROM pistas WHERE nome = 'Pista treinamento';
+Registros percorridos: 2 4
+Registros percorridos: 2 4
+00000004, Pista treinamento, 1, 200, 80, 100.00
+SELECT * FROM corridas WHERE ocorrencia BETWEEN '202201021007' AND '202301021007' ORDER BY ocorrencia ASC;
+Registros percorridos: 1 0
+00000000, 202301011007, 570026317309902276008167912443801405669913118742417694323808302585, 000000000000000000000000000000000000000000
+SELECT * FROM corredores WHERE 'Standard' IN array_append(veiculos) ORDER BY id_corredor ASC;
+Registros percorridos: 0 1 2 3 4 6
+23808302585, Rafael Fernandes, Raflash, 202104070013, 0.00
+40566991311, Arnaldo Turbinaldo, TurbiArnaldo, 202103181430, 10720.00
+57002631730, Van Helsing Junior, Tio da Van, 202107300733, 960.00
+67912443801, Ramon Queiroz, Ramon Dino, 202104041659, 840.00
+87424176943, Chris Bumstead, CBUM, 202103260628, 540.00
+99022760081, Marco Souza, Marcotrafego, 202104150517, 720.00
+SELECT * FROM corredores WHERE 'Defenestrator' IN array_append(veiculos) ORDER BY id_corredor ASC;
+Registros percorridos: 5
+87424176943, Chris Bumstead, CBUM, 202103260628, 540.00
+SELECT * FROM corredores ORDER BY id_corredor ASC;
+23808302585, Rafael Fernandes, Raflash, 202104070013, 0.00
+40566991311, Arnaldo Turbinaldo, TurbiArnaldo, 202103181430, 10720.00
+57002631730, Van Helsing Junior, Tio da Van, 202107300733, 960.00
+67912443801, Ramon Queiroz, Ramon Dino, 202104041659, 840.00
+87424176943, Chris Bumstead, CBUM, 202103260628, 540.00
+99022760081, Marco Souza, Marcotrafego, 202104150517, 720.00
+\echo file ARQUIVO_CORREDORES
+40566991311;Arnaldo Turbinaldo;TurbiArnaldo;202103181430;0000010720.00;Standard;##########################################################################################87424176943;Chris Bumstead;CBUM;202103260628;0000000540.00;Standard|Defenestrator;########################################################################################67912443801;Ramon Queiroz;Ramon Dino;202104041659;0000000840.00;Standard;#################################################################################################23808302585;Rafael Fernandes;Raflash;202104070013;0000000000.00;Standard;#################################################################################################99022760081;Marco Souza;Marcotrafego;202104150517;0000000720.00;Standard;#################################################################################################57002631730;Van Helsing Junior;Tio da Van;202107300733;0000000960.00;Standard;############################################################################################
+\echo file ARQUIVO_VEICULOS
+0000000;Lesta;Standard;Sem poderes;0040;0005;0200;0000000000.00;#################################################################0000001;Lesta;Model ML;Piloto automatico;0070;0015;0352;0000122199.00;###########################################################0000002;Tiaf;Defenestrator;Defenestra cascas de banana;0060;0004;0250;0000003000.00;#############################################
+\echo file ARQUIVO_PISTAS
+00000000;Campus Sanca;0004;1250;0560;0000000400.00;######################00000001;Campus Bells Pond;0003;0200;0090;0000000300.00;#################00000002;Cachoeira Misteriosa;0002;0250;0136;0000000200.00;##############00000003;Campus Sorocity;0005;0300;0140;0000000500.00;###################00000004;Pista treinamento;0001;0200;0080;0000000100.00;#################
+\echo file ARQUIVO_CORRIDAS
+0000000020230101100757002631730990227600816791244380140566991311874241769432380830258500000000000000000000000000000000000000000000000001202302211007405669913118742417694367912443801238083025859902276008157002631730000000000000020000000000000000000000000000
+\echo index corredores_idx
+23808302585, 3
+40566991311, 0
+57002631730, 5
+67912443801, 2
+87424176943, 1
+99022760081, 4
+\echo index veiculos_idx
+0000000, 0
+0000001, 1
+0000002, 2
+\echo index pistas_idx
+00000000, 0
+00000001, 1
+00000002, 2
+00000003, 3
+00000004, 4
+\echo index nome_pista_idx
+CACHOEIRA MISTERIOSA, 00000002
+CAMPUS BELLS POND, 00000001
+CAMPUS SANCA, 00000000
+CAMPUS SOROCITY, 00000003
+PISTA TREINAMENTO, 00000004
+\echo index preco_veiculo_idx
+0.00, 0000000
+3000.00, 0000002
+122199.00, 0000001
+\echo index corridas_idx
+202301011007, 00000000, 0
+202302211007, 00000001, 1
+\q

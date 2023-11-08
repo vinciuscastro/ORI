@@ -1,0 +1,14 @@
+INSERT INTO corredores VALUES ('81099655877', 'Max Vers Tappa', 'Tappa');
+INSERT INTO corredores VALUES ('27326510707', 'Lewis Ran Miltaum', 'Ran Miltaum');
+INSERT INTO corredores VALUES ('72176828461', 'Sebastian Venceu', 'Turbo Vencido');
+INSERT INTO corredores VALUES ('72176828461', 'Kaprice Oh-tima Kellianne', 'Ótima');
+INSERT INTO veiculos VALUES ('McLaren', 'Sneeker', 'Bombas de chuleh', 200, 420, 1788, 20000);
+INSERT INTO veiculos VALUES ('BMW', 'Bumble V', 'Mel na pista', 210, 200, 1000, 25000);
+INSERT INTO veiculos VALUES ('Aston Martin', 'Blooper', 'Jato de tinta preta', 180, 200, 500, 15000);
+SELECT * FROM corredores ORDER BY id_corredor ASC;
+\echo file ARQUIVO_CORREDORES
+\echo index corredores_idx
+\echo file ARQUIVO_VEICULOS
+\echo index veiculos_idx
+\echo index preco_veiculo_idx
+\q

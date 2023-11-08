@@ -1,0 +1,45 @@
+Indice corredores_idx criado com sucesso!
+Indice veiculos_idx criado com sucesso!
+Indice pistas_idx criado com sucesso!
+Indice corridas_idx criado com sucesso!
+Indice nome_pista_idx criado com sucesso!
+Indice preco_veiculo_idx criado com sucesso!
+Indice corredor_veiculos_idx criado com sucesso!
+INSERT INTO corredores VALUES ('58737564702', 'Michael  Xumaker', 'Xumaker');
+OK
+INSERT INTO corredores VALUES ('46916935965', 'Juan Manuel Frango', 'Chicken Boy');
+OK
+INSERT INTO corredores VALUES ('38747428789', 'Jim Clark Quente', 'Superman');
+OK
+INSERT INTO corredores VALUES ('42714376303', 'Alain Post', 'Instagramer');
+ERRO: Ja existe um registro com a chave 42714376303
+UPDATE corredores SET saldo = saldo + 58940 WHERE id_corredor = '65037521605';
+OK
+UPDATE corredores SET saldo = saldo + 97720 WHERE id_corredor = '47922650827';
+ERRO: Registro nao encontrado
+UPDATE corredores SET saldo = saldo + -32280 WHERE id_corredor = '58737564702';
+ERRO: Valor invalido
+\echo file ARQUIVO_CORREDORES
+66679595970;Ayrton Senha;Password;202103181430;0000000000.00;;############################################################################################################42714376303;Fernando Afrontoso;Afronta;202103260628;0000000000.00;;#######################################################################################################65037521605;Rubens Barrinha Quero;Rubinho;202104041659;0000058940.00;;####################################################################################################58737564702;Michael  Xumaker;Xumaker;202103181430;0000000000.00;;#########################################################################################################46916935965;Juan Manuel Frango;Chicken Boy;202103260628;0000000000.00;;###################################################################################################38747428789;Jim Clark Quente;Superman;202104041659;0000000000.00;;########################################################################################################
+SELECT * FROM corredores ORDER BY id_corredor ASC;
+38747428789, Jim Clark Quente, Superman, 202104041659, 0.00
+42714376303, Fernando Afrontoso, Afronta, 202103260628, 0.00
+46916935965, Juan Manuel Frango, Chicken Boy, 202103260628, 0.00
+58737564702, Michael  Xumaker, Xumaker, 202103181430, 0.00
+65037521605, Rubens Barrinha Quero, Rubinho, 202104041659, 58940.00
+66679595970, Ayrton Senha, Password, 202103181430, 0.00
+DELETE FROM corredores WHERE id_corredor = '66679595970';
+OK
+DELETE FROM corredores WHERE id_corredor = '94524319844';
+ERRO: Registro nao encontrado
+VACUUM corredores;
+OK
+\echo file ARQUIVO_CORREDORES
+42714376303;Fernando Afrontoso;Afronta;202103260628;0000000000.00;;#######################################################################################################65037521605;Rubens Barrinha Quero;Rubinho;202104041659;0000058940.00;;####################################################################################################58737564702;Michael  Xumaker;Xumaker;202103181430;0000000000.00;;#########################################################################################################46916935965;Juan Manuel Frango;Chicken Boy;202103260628;0000000000.00;;###################################################################################################38747428789;Jim Clark Quente;Superman;202104041659;0000000000.00;;########################################################################################################
+\echo index corredores_idx
+38747428789, 4
+42714376303, 0
+46916935965, 3
+58737564702, 2
+65037521605, 1
+\q

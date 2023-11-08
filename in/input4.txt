@@ -1,0 +1,16 @@
+SET ARQUIVO_CORREDORES TO '66679595970;Ayrton Senha;Password;202103181430;0000000000.00;;############################################################################################################42714376303;Fernando Afrontoso;Afronta;202103260628;0000000000.00;;#######################################################################################################65037521605;Rubens Barrinha Quero;Rubinho;202104041659;0000000000.00;;####################################################################################################';
+INSERT INTO corredores VALUES ('58737564702', 'Michael  Xumaker', 'Xumaker');
+INSERT INTO corredores VALUES ('46916935965', 'Juan Manuel Frango', 'Chicken Boy');
+INSERT INTO corredores VALUES ('38747428789', 'Jim Clark Quente', 'Superman');
+INSERT INTO corredores VALUES ('42714376303', 'Alain Post', 'Instagramer');
+UPDATE corredores SET saldo = saldo + 58940 WHERE id_corredor = '65037521605';
+UPDATE corredores SET saldo = saldo + 97720 WHERE id_corredor = '47922650827';
+UPDATE corredores SET saldo = saldo + -32280 WHERE id_corredor = '58737564702';
+\echo file ARQUIVO_CORREDORES
+SELECT * FROM corredores ORDER BY id_corredor ASC;
+DELETE FROM corredores WHERE id_corredor = '66679595970';
+DELETE FROM corredores WHERE id_corredor = '94524319844';
+VACUUM corredores;
+\echo file ARQUIVO_CORREDORES
+\echo index corredores_idx
+\q

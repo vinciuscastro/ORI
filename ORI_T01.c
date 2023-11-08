@@ -4,14 +4,14 @@
  * Prof. Tiago A. Almeida
  *
  * Trabalho 01 - Indexação
- *
- * ========================================================================== *
+ * 
+  * ========================================================================== *
  *                             <<< NÃO ALTERAR >>>
  * ========================================================================== */
  
 /* Bibliotecas */
-#include "ORI_T01_HEADER.c"
 #include "ORI_T01_HEADER.h"
+#include "ORI_T01_HEADER.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -64,12 +64,13 @@ int main() {
 
     scanf("SET ARQUIVO_CORRIDAS TO '%[^']';\n", ARQUIVO_CORRIDAS);
     temp_len = strlen(ARQUIVO_CORRIDAS);
-    qtd_registros_corridas = temp_len / (TAM_REGISTRO_CORRIDA - 5);
+    qtd_registros_corridas = temp_len / TAM_REGISTRO_CORRIDA;
     ARQUIVO_CORRIDAS[temp_len] = '\0';
  
     // inicialização do gerador de números aleatórios e função de datas
     prng_srand(seed);
-    putenv("TZ=UTC");
+    //putenv("TZ=UTC");
+    setenv("TZ", "UTC", 1);
     set_time(datetime);
  
     criar_corredores_idx();

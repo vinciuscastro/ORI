@@ -1,0 +1,26 @@
+INSERT INTO corredores VALUES ('93804621236', 'Ayrton Senha', 'Password');
+INSERT INTO corredores VALUES ('57653993524', 'Fernando Afrontoso', 'Afronta');
+INSERT INTO corredores VALUES ('59932519774', 'Rubens Barrinha Quero', 'Rubinho');
+INSERT INTO corredores VALUES ('93804621236', 'Gautam Wayne', 'Batman');
+INSERT INTO veiculos VALUES ('McLaren', 'Sneeker', 'Bombas de chuleh', 200, 420, 1788, 20000);
+INSERT INTO veiculos VALUES ('BMW', 'Bumble V', 'Mel na pista', 210, 200, 1000, 25000);
+INSERT INTO veiculos VALUES ('Aston Martin', 'Blooper', 'Jato de tinta preta', 180, 200, 500, 15000);
+INSERT INTO veiculos VALUES ('Aston Martin', 'Teddy Buggy', 'Explosao de fofura', 100, 100, 100, 8000);
+INSERT INTO pistas VALUES ('Circuito de Monaco', 5, 5793, 50);
+INSERT INTO pistas VALUES ('Autodramo de Interlagos', 2, 3337, 200);
+INSERT INTO pistas VALUES ('Circuito de Suzuka', 4, 5891, 100);
+INSERT INTO pistas VALUES ('Circuito de Monaco', 3, 7004, 80);
+SELECT * FROM corredores WHERE id_corredor = '57653993524';
+SELECT * FROM corredores WHERE id_corredor = '72428989929';
+SELECT * FROM pistas WHERE id_pista = '00000001';
+SELECT * FROM pistas WHERE id_pista = '00000007';
+SELECT * FROM corredores ORDER BY id_corredor ASC;
+\echo file ARQUIVO_CORREDORES
+\echo index corredores_idx
+\echo file ARQUIVO_VEICULOS
+\echo index veiculos_idx
+\echo index preco_veiculo_idx
+\echo file ARQUIVO_PISTAS
+\echo index pistas_idx
+\echo index nome_pista_idx
+\q

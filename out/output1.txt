@@ -1,0 +1,28 @@
+Indice corredores_idx criado com sucesso!
+Indice veiculos_idx criado com sucesso!
+Indice pistas_idx criado com sucesso!
+Indice corridas_idx criado com sucesso!
+Indice nome_pista_idx criado com sucesso!
+Indice preco_veiculo_idx criado com sucesso!
+Indice corredor_veiculos_idx criado com sucesso!
+INSERT INTO corredores VALUES ('24307783145', 'Alex Johnson', 'Flash');
+OK
+INSERT INTO corredores VALUES ('68879111793', 'Emily Davies', 'Speedy Star');
+OK
+INSERT INTO corredores VALUES ('85326069057', 'Jack Miller', 'Blaze Runner');
+OK
+INSERT INTO corredores VALUES ('24307783145', 'Sarah Wilson Smith', 'Turbo Lightning');
+ERRO: Ja existe um registro com a chave 24307783145
+UPDATE corredores SET saldo = saldo + 54930 WHERE id_corredor = '68879111793';
+OK
+UPDATE corredores SET saldo = saldo + 70930 WHERE id_corredor = '53871682559';
+ERRO: Registro nao encontrado
+UPDATE corredores SET saldo = saldo + -64430 WHERE id_corredor = '68879111793';
+ERRO: Valor invalido
+\echo file ARQUIVO_CORREDORES
+24307783145;Alex Johnson;Flash;202103181430;0000000000.00;;###############################################################################################################68879111793;Emily Davies;Speedy Star;202103260628;0000054930.00;;#########################################################################################################85326069057;Jack Miller;Blaze Runner;202104041659;0000000000.00;;#########################################################################################################
+SELECT * FROM corredores ORDER BY id_corredor ASC;
+24307783145, Alex Johnson, Flash, 202103181430, 0.00
+68879111793, Emily Davies, Speedy Star, 202103260628, 54930.00
+85326069057, Jack Miller, Blaze Runner, 202104041659, 0.00
+\q

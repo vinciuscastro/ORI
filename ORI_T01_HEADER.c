@@ -76,7 +76,7 @@ int qsort_nome_pista_idx(const void *a, const void *b)
 int qsort_preco_veiculo_idx(const void *a, const void *b)
 {
 	/*IMPLEMENTE A FUNÇÃO AQUI*/
-	return strcmp(((preco_veiculo_index *)a)->preco, ((preco_veiculo_index *)b)->preco);
+	// return strcmp(((preco_veiculo_index *)a)->preco, ((preco_veiculo_index *)b)->preco);
 	printf(ERRO_NAO_IMPLEMENTADO, "qsort_preco_veiculo_idx()");
 }
 
@@ -242,9 +242,9 @@ void criar_preco_veiculo_idx()
 
 	for (unsigned i = 0; i < qtd_registros_veiculos; ++i)
 	{
-		Pista c = recuperar_registro_pista(i);
-		strcpy(preco_veiculo_idx[i].preco, c.preco);
-		strcpy(preco_veiculo_idx[i].id_veiculo, c.id_veiculo);
+		Veiculo v = recuperar_registro_veiculo(i);
+		preco_veiculo_idx[i].preco = v.preco;
+		strcpy(preco_veiculo_idx[i].id_veiculo, v.id_veiculo);
 	}
 
 	qsort(preco_veiculo_idx, qtd_registros_veiculos, sizeof(preco_veiculo_index), qsort_preco_veiculo_idx);
@@ -279,7 +279,7 @@ bool exibir_veiculo(int rrn)
 
 	Veiculo c = recuperar_registro_veiculo(rrn);
 
-	printf("%s, %s, %s, %s, %.2lf\n", c.id_veiculo, c.nome, c.apelido, c.cadastro, c.saldo);
+	printf("%s, %s, %s, %s, %d, %d, %d, %.2lf\n", c.id_veiculo, c.marca, c.modelo, c.poder, c.velocidade, c.aceleracao, c.peso, c.preco);
 	return true;
 	printf(ERRO_NAO_IMPLEMENTADO, "exibir_veiculo()");
 
@@ -294,7 +294,7 @@ bool exibir_pista(int rrn)
 
 	Pista c = recuperar_registro_pista(rrn);
 
-	printf("%s, %s, %s, %s, %.2lf\n", c.id_corredor, c.nome, c.apelido, c.cadastro, c.saldo);
+	printf("%s, %s, %d, %d, %d, %.2lf\n", c.id_pista, c.nome, c.dificuldade, c.distancia, c.recorde, c.taxa_inscricao);
 	return true;
 	printf(ERRO_NAO_IMPLEMENTADO, "exibir_pista()");
 
@@ -309,10 +309,9 @@ bool exibir_corrida(int rrn)
 
 	Corrida c = recuperar_registro_corrida(rrn);
 
-	printf("%s, %s, %s, %s, %.2lf\n", c.id_corrida, c.nome, c.apelido, c.cadastro, c.saldo);
+	printf("%s, %s, %s, %s\n", c.id_pista, c.ocorrencia, c.id_corredores, c.id_veiculos);
 	return true;
 	printf(ERRO_NAO_IMPLEMENTADO, "exibir_corrida()");
-
 	return false;
 }
 
@@ -387,24 +386,24 @@ Pista recuperar_registro_pista(int rrn)
 {
 	Pista p;
 	/*IMPLEMENTE A FUNÇÃO AQUI*/
-	char temp[TAM_ARQUIVO_PISTAS + 1], *p;
+	char temp[TAM_ARQUIVO_PISTAS + 1], *a;
 	strncpy(temp, ARQUIVO_PISTAS + (rrn * TAM_ARQUIVO_PISTAS), TAM_ARQUIVO_PISTAS);
 	temp[TAM_ARQUIVO_PISTAS] = '\0';
 
-	p = strtok(temp, ";");
-	strcpy(p.id_pista, p);
-	p = strtok(NULL, ";");
-	strcpy(p.nome, p);
+	a = strtok(temp, ";");
+	strcpy(p.id_pista, a);
+	a = strtok(NULL, ";");
+	strcpy(p.nome, a);
 
-	p = strtok(NULL, ";");
-	p.dificuldade = atoi(p);
-	p = strtok(NULL, ";");
-	p.distancia = atoi(p);
-	p = strtok(NULL, ";");
-	p.recorde = atoi(p);
+	a = strtok(NULL, ";");
+	p.dificuldade = atoi(a);
+	a = strtok(NULL, ";");
+	p.distancia = atoi(a);
+	a = strtok(NULL, ";");
+	p.recorde = atoi(a);
 
-	p = strtok(NULL, ";");
-	p.taxa_inscricao = atof(p);
+	a = strtok(NULL, ";");
+	p.taxa_inscricao = atof(a);
 
 	return p;
 	printf(ERRO_NAO_IMPLEMENTADO, "recuperar_registro_pista()");
@@ -566,7 +565,36 @@ void escrever_registro_corrida(Corrida i, int rrn)
 void cadastrar_corredor_menu(char *id_corredor, char *nome, char *apelido)
 {
 	/*IMPLEMENTE A FUNÇÃO AQUI*/
-	printf(ERRO_NAO_IMPLEMENTADO, "cadastrar_corredor_menu()");
+	char timestamp[TAM_DATETIME];
+	current_datetime(timestamp);
+	Corredor corredor;
+	corredores_index index;
+	strcpy(index.id_corredor, id_corredor);
+	corredores_index *found = busca_binaria((void *)&index, corredores_idx, qtd_registros_corredores, sizeof(corredores_index), qsort_corredores_idx, true, 0);
+	// printf("ENTRAMOS NA PRIMEIRA");
+	if (found == NULL || found->rrn < 0)
+	{
+		// printf("%s", found->id_corredor);
+		// printf("ENTRAMOS");
+		strcpy(corredor.id_corredor, id_corredor);
+		strcpy(corredor.nome, nome);
+		strcpy(corredor.apelido, apelido);
+		strcpy(corredor.cadastro, timestamp);
+
+		corredor.saldo = atof("000000000000.00");
+		for (int i = 0; i < QTD_MAX_VEICULO; i++)
+		{
+			strcpy(corredor.veiculos[i], "\0");
+		}
+		escrever_registro_corredor(corredor, qtd_registros_corredores);
+		strcpy(corredores_idx[qtd_registros_corredores].id_corredor, id_corredor);
+		corredores_idx[qtd_registros_corredores].rrn = qtd_registros_corredores;
+		qtd_registros_corredores++;
+		qsort(corredores_idx, qtd_registros_corredores, sizeof(corredores_index), qsort_corredores_idx);
+		printf(SUCESSO);
+	}
+	else
+		printf(ERRO_PK_REPETIDA, found->id_corredor);
 }
 
 void remover_corredor_menu(char *id_corredor)
@@ -583,7 +611,25 @@ void adicionar_saldo_menu(char *id_corredor, double valor)
 void adicionar_saldo(char *id_corredor, double valor, bool flag)
 {
 	/*IMPLEMENTE A FUNÇÃO AQUI*/
-	printf(ERRO_NAO_IMPLEMENTADO, "adicionar_saldo()");
+	Corredor corredor;
+	corredores_index index;
+
+	strcpy(index.id_corredor, id_corredor);
+	corredores_index *found = busca_binaria((void *)&index, corredores_idx, qtd_registros_corredores, sizeof(corredores_index), qsort_corredores_idx, true, 0);
+	if (found == NULL || found->rrn < 0)
+		printf(ERRO_REGISTRO_NAO_ENCONTRADO);
+	else
+	{
+		if (valor <= 0)
+			printf(ERRO_VALOR_INVALIDO);
+		else
+		{
+			corredor = recuperar_registro_corredor(found->rrn);
+			corredor.saldo += valor;
+			escrever_registro_corredor(corredor, found->rrn);
+			printf(SUCESSO);
+		}
+	}
 }
 
 void comprar_veiculo_menu(char *id_corredor, char *id_veiculo)
@@ -787,7 +833,7 @@ void imprimir_preco_veiculo_idx_menu()
 		printf(ERRO_ARQUIVO_VAZIO);
 	else
 		for (unsigned i = 0; i < qtd_registros_veiculos; ++i)
-			printf("%lf, %s\n", preco_veiculo_idx[i].preco, preco_veiculo_idx[i].i);
+			printf("%lf, %s\n", preco_veiculo_idx[i].preco, preco_veiculo_idx[i].id_veiculo);
 	printf(ERRO_NAO_IMPLEMENTADO, "imprimir_preco_veiculo_idx_menu()");
 }
 
@@ -810,7 +856,7 @@ void imprimir_corredor_veiculos_primario_idx_menu()
 	else
 		for (unsigned i = 0; i < corredor_veiculos_idx.qtd_registros_secundario; ++i)
 			printf("%s, %d\n", corredor_veiculos_idx.corredor_veiculos_primario_idx[i].chave_primaria, corredor_veiculos_idx.corredor_veiculos_primario_idx[i].proximo_indice);
-	'' printf(ERRO_NAO_IMPLEMENTADO, "imprimir_corredor_veiculos_primario_idx_menu()");
+	printf(ERRO_NAO_IMPLEMENTADO, "imprimir_corredor_veiculos_primario_idx_menu()");
 }
 
 /* Liberar memória e encerrar programa */
@@ -833,7 +879,7 @@ bool inverted_list_secondary_search(int *result, bool exibir_caminho, char *chav
 	return false;
 }
 
-int inverted_list_primary_search(char result[][TAM_CHAVE_CORREDOR_VEICULO_PRIMARIO_IDX], bool exibir_caminho, int indice, int *indice_final, inverted_list *t)
+int inverted_list_primary_search(char result[][TAM_ID_CORREDOR], bool exibir_caminho, int indice, int *indice_final, inverted_list *t)
 {
 	/*IMPLEMENTE A FUNÇÃO AQUI*/
 	printf(ERRO_NAO_IMPLEMENTADO, "inverted_list_primary_search()");
@@ -843,11 +889,53 @@ int inverted_list_primary_search(char result[][TAM_CHAVE_CORREDOR_VEICULO_PRIMAR
 void *busca_binaria_com_reps(const void *key, const void *base0, size_t nmemb, size_t size, int (*compar)(const void *, const void *), bool exibir_caminho, int posicao_caso_repetido, int retorno_se_nao_encontrado)
 {
 	/*IMPLEMENTE A FUNÇÃO AQUI*/
+	// printf("ENTRAMOS BIN\n");
+	char *base = (char *)base0;
+	size_t imin = 0;
+	while (nmemb >= imin)
+	{
+		// printf("%zu nmebm\n", nmemb);
+		// printf("%zu nmemb\n", nmemb);
+		// printf("%zu imin\n", imin);
+
+		// size_t imid = (nmemb % 2 == 0) ? imin + ((nmemb - imin) / 2)  + 1: imin + ((nmemb - imin) / 2);
+		size_t imid = (imin + ((nmemb - imin) / 2));
+
+		const void *found = base + imid * size;
+		int result = compar(key, found);
+		// printf("%d result\n",result);
+		// printf("%ld imid\n", imid);
+		if (exibir_caminho)
+			// printf("[%zu]\n", imid);
+
+			if (result > 0)
+			{
+				imin = imid + 1;
+			}
+			else if (result < 0)
+			{
+				nmemb = imid - 1;
+			}
+			else
+			{
+				// printf("ENCONTREI");
+				return (void *)found;
+			}
+	}
+	return NULL;
+
 	printf(ERRO_NAO_IMPLEMENTADO, "busca_binaria_com_reps()");
 	return (void *)-1;
 }
 
-void *busca_binaria(const void *key, const void *base0, size_t nmemb, size_t size, int (*compar)(const void *, const void *), bool exibir_caminho, int retorno_se_nao_encontrado)
+void *busca_binaria(
+		const void *key,
+		const void *base0,
+		size_t nmemb,
+		size_t size,
+		int (*compar)(const void *, const void *),
+		bool exibir_caminho,
+		int retorno_se_nao_encontrado)
 {
 	return busca_binaria_com_reps(key, base0, nmemb, size, compar, exibir_caminho, 0, retorno_se_nao_encontrado);
 }

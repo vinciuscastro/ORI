@@ -49,7 +49,7 @@ typedef enum {false, true} bool;
 #define TAM_REGISTRO_CORREDOR (TAM_ID_CORREDOR+TAM_MAX_NOME_CORREDOR+TAM_MAX_APELIDO+TAM_DATETIME+TAM_FLOAT_NUMBER+QTD_MAX_VEICULO*TAM_MAX_MODELO)
 #define TAM_REGISTRO_VEICULO (TAM_ID_VEICULO+TAM_MAX_MARCA+TAM_MAX_MODELO+TAM_MAX_PODER+TAM_INT_NUMBER*3+TAM_FLOAT_NUMBER+1)
 #define TAM_REGISTRO_PISTA (TAM_ID_PISTA+TAM_MAX_NOME_PISTA+TAM_INT_NUMBER*3+TAM_FLOAT_NUMBER+1)
-#define TAM_REGISTRO_CORRIDA (TAM_ID_PISTA+TAM_DATETIME+TAM_ID_CORREDORES+TAM_ID_VEICULOS+1)
+#define TAM_REGISTRO_CORRIDA (TAM_ID_PISTA+TAM_DATETIME+TAM_ID_CORREDORES+TAM_ID_VEICULOS-4)
 #define TAM_ARQUIVO_CORREDORES (TAM_REGISTRO_CORREDOR * MAX_REGISTROS + 1)
 #define TAM_ARQUIVO_VEICULOS (TAM_REGISTRO_VEICULO * MAX_REGISTROS + 1)
 #define TAM_ARQUIVO_PISTAS (TAM_REGISTRO_PISTA * MAX_REGISTROS + 1)
@@ -311,7 +311,7 @@ void escrever_registro_corrida(Corrida i, int rrn);
 void cadastrar_corredor_menu(char *id_corredor, char *nome, char *apelido);
 void remover_corredor_menu(char *id_corredor);
 void adicionar_saldo_menu(char *id_corredor, double valor);
-void adicionar_saldo(char *id_corredor, double valor, bool flag);//a flag indica se a mensagem de sucesso sera impressa ou nao
+void adicionar_saldo(char *id_corredor, double valor, bool flag);
 void comprar_veiculo_menu(char *id_corredor, char *id_veiculo);
 void cadastrar_veiculo_menu(char *marca, char *modelo, char *poder, int velocidade, int aceleracao, int peso, double preco);
 void cadastrar_pista_menu(char *nome, int dificuldade, int distancia, int recorde);
@@ -432,7 +432,7 @@ bool inverted_list_secondary_search(int *result, bool exibir_caminho, char *chav
  * @param t Ponteiro para o índice do tipo Lista invertida no qual será buscada a chave.
  * @return Indica a quantidade de chaves encontradas.
  */
-int inverted_list_primary_search(char result[][TAM_CHAVE_CORREDOR_VEICULO_PRIMARIO_IDX], bool exibir_caminho, int indice, int *indice_final, inverted_list *t);
+int inverted_list_primary_search(char result[][TAM_ID_CORREDOR], bool exibir_caminho, int indice, int *indice_final, inverted_list *t);
 
 /* Funções auxiliares */
 char* strpadright(char *str, char pad, unsigned size);
@@ -465,8 +465,12 @@ char* strlower(char *str);
 void* busca_binaria_com_reps(const void *key, const void *base0, size_t nmemb, size_t size, int (*compar)(const void *, const void *), bool exibir_caminho, int posicao_caso_repetido, int retorno_se_nao_encontrado);
 void* busca_binaria(const void *key, const void *base0, size_t nmemb, size_t size, int (*compar)(const void *, const void *), bool exibir_caminho, int retorno_se_nao_encontrado);
 
+/*extra*/
+int qsort_string_modelo(const void *a, const void *b);
+
 /* ===========================================================================
  * ============================= FUNÇÕES BÁSICAS =============================
+ * ======= NÃO ALTERAR E NÃO COLAR NO AVA! VÁ DIRETO PARA A LINHA 310 ======== */
 
 /* Funções de geração determinística de números pseudo-aleatórios */
 void prng_srand(uint64_t value) {
@@ -762,5 +766,7 @@ char* strupr(char *str);
  * @param str Ponteiro para a string a ser manipulada.
  */
 char* strlower(char *str);
+
+
 
 #endif

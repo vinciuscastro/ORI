@@ -1,0 +1,29 @@
+SET ARQUIVO_CORREDORES TO '76069720480;Rubens Barrinha Quero;Rubinho;202104041659;0000058940.00;Sneeker;#############################################################################################34563448990;Michael  Xumaker;Xumaker;202103181430;0000000000.00;Sneeker|Bumble V|;########################################################################################84858786728;Juan Manuel Frango;Chicken Boy;202103260628;0000000000.00;Blooper;############################################################################################';
+SET ARQUIVO_VEICULOS TO '0000000;McLaren;Sneeker;Bombas de chuleh;0200;0420;1788;0000020000.00;###########################################################0000001;BMW;Bumble V;Mel na pista;0210;0200;1000;0000025000.00;##################################################################0000002;Aston Martin;Blooper;Jato de tinta preta;0180;0200;0500;0000015000.00;###################################################';
+SET ARQUIVO_PISTAS TO '00000000;Circuito de Monaco;0005;5793;0050;0000000500.00;################00000001;Autodramo de Interlagos;0002;3337;0200;0000000200.00;###########00000002;Circuito de Suzuka;0004;5891;0100;0000000400.00;################';
+INSERT INTO corredores VALUES ('68110268504', 'Ayrton Senha', 'Password');
+INSERT INTO corredores VALUES ('54443017315', 'Fernando Afrontoso', 'Afronta');
+INSERT INTO corredores VALUES ('10406065934', 'Sergio Perez', 'Pedregulho');
+INSERT INTO corredores VALUES ('84858786728', 'Gautam Wayne', 'Batman');
+INSERT INTO veiculos VALUES ('Ferrari', 'BiddyBuggy', 'Asas de Joaninha', 250, 500, 700, 60000);
+INSERT INTO veiculos VALUES ('Chevrolet', 'Egg Monster', 'Lacador de ovos', 200, 500, 1000, 26000);
+INSERT INTO veiculos VALUES ('Ford', 'Crazy Taxi', 'Pular posicoes', 180, 200, 500, 15000);
+INSERT INTO veiculos VALUES ('Fiat', 'Pink Cabriolet', 'Flores na estrada', 100, 100, 100, 8000);
+INSERT INTO pistas VALUES ('Hermanos Rodriguez', 5, 5795, 50);
+INSERT INTO pistas VALUES ('Nurbugring', 1, 3257, 200);
+INSERT INTO pistas VALUES ('Gilles-Villeneuve', 4, 5891, 100);
+INSERT INTO pistas VALUES ('Silverstone', 3, 7004, 80);
+SELECT * FROM corredores WHERE id_corredor = '54443017315';
+SELECT * FROM corredores WHERE id_corredor = '45143117149';
+SELECT * FROM pistas WHERE id_pista = '00000004';
+SELECT * FROM pistas WHERE id_pista = '00000028';
+SELECT * FROM corredores ORDER BY id_corredor ASC;
+\echo file ARQUIVO_CORREDORES
+\echo index corredores_idx
+\echo file ARQUIVO_VEICULOS
+\echo index veiculos_idx
+\echo index preco_veiculo_idx
+\echo file ARQUIVO_PISTAS
+\echo index pistas_idx
+\echo index nome_pista_idx
+\q

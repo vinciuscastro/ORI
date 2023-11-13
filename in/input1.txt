@@ -8,4 +8,3 @@ UPDATE corredores SET saldo = saldo + -64430 WHERE id_corredor = '68879111793';
 \echo file ARQUIVO_CORREDORES
 SELECT * FROM corredores ORDER BY id_corredor ASC;
 \q
-valgrind --leak-check-full-show-leak-kinds all track-origins=yes ./ a.out

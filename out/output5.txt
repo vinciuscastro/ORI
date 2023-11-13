@@ -37,7 +37,7 @@ Registros percorridos: 3 1 2
 ERRO: Registro nao encontrado
 SELECT * FROM pistas WHERE id_pista = '00000004';
 Registros percorridos: 3 5 4
-00000004, Nurbugring, 1, 3257, 200, 100.00
+00000004, Nurbugring, 1, 3257, 200
 SELECT * FROM pistas WHERE id_pista = '00000028';
 Registros percorridos: 3 5 6
 ERRO: Registro nao encontrado
@@ -76,7 +76,7 @@ SELECT * FROM corredores ORDER BY id_corredor ASC;
 26000.00, 0000004
 60000.00, 0000003
 \echo file ARQUIVO_PISTAS
-00000000;Circuito de Monaco;0005;5793;0050;0000000500.00;################00000001;Autodramo de Interlagos;0002;3337;0200;0000000200.00;###########00000002;Circuito de Suzuka;0004;5891;0100;0000000400.00;################00000003;Hermanos Rodriguez;0005;5795;0050;0000000500.00;################00000004;Nurbugring;0001;3257;0200;0000000100.00;########################00000005;Gilles-Villeneuve;0004;5891;0100;0000000400.00;#################00000006;Silverstone;0003;7004;0080;0000000300.00;#######################
+00000000;Circuito de Monaco;0005;5793;0050;0000000500.00;################00000001;Autodramo de Interlagos;0002;3337;0200;0000000200.00;###########00000002;Circuito de Suzuka;0004;5891;0100;0000000400.00;################00000003;Hermanos Rodriguez;0005;5795;0050;##############################00000004;Nurbugring;0001;3257;0200;######################################00000005;Gilles-Villeneuve;0004;5891;0100;###############################00000006;Silverstone;0003;7004;0080;#####################################
 \echo index pistas_idx
 00000000, 0
 00000001, 1

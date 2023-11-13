@@ -37,7 +37,7 @@ Registros percorridos: 1 2
 ERRO: Registro nao encontrado
 SELECT * FROM pistas WHERE id_pista = '00000001';
 Registros percorridos: 1
-00000001, Autodramo de Interlagos, 2, 3337, 200, 200.00
+00000001, Autodramo de Interlagos, 2, 3337, 200
 SELECT * FROM pistas WHERE id_pista = '00000007';
 Registros percorridos: 1 2
 ERRO: Registro nao encontrado
@@ -64,7 +64,7 @@ SELECT * FROM corredores ORDER BY id_corredor ASC;
 20000.00, 0000000
 25000.00, 0000001
 \echo file ARQUIVO_PISTAS
-00000000;Circuito de Monaco;0005;5793;0050;0000000500.00;################00000001;Autodramo de Interlagos;0002;3337;0200;0000000200.00;###########00000002;Circuito de Suzuka;0004;5891;0100;0000000400.00;################
+00000000;Circuito de Monaco;0005;5793;0050;##############################00000001;Autodramo de Interlagos;0002;3337;0200;#########################00000002;Circuito de Suzuka;0004;5891;0100;##############################
 \echo index pistas_idx
 00000000, 0
 00000001, 1

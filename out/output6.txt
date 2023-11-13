@@ -12,7 +12,7 @@ SELECT * FROM veiculos WHERE preco <= ('SELECT saldo FROM corredores WHERE id_co
 SELECT * FROM pistas WHERE nome = 'Campus Bells Pond';
 Registros percorridos: 2 1
 Registros percorridos: 2 1
-00000001, Campus Bells Pond, 3, 200, 90, 300.00
+00000001, Campus Bells Pond, 3, 200, 90
 SELECT * FROM corredores ORDER BY id_corredor ASC;
 13572006333, Carlos Estrada, Car los, 202103181430, 300.00
 17171783162, Ana Costa, Reverse pilot, 202104070013, 1200.00

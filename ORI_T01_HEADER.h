@@ -20,7 +20,11 @@
 #include <ctype.h>
 #include <string.h>
 
-typedef enum {false, true} bool;
+typedef enum
+{
+	false,
+	true
+} bool;
 
 /* Tamanho dos campos dos registros */
 /* Campos de tamanho fixo */
@@ -38,7 +42,7 @@ typedef enum {false, true} bool;
 #define TAM_ID_VEICULOS (TAM_ID_VEICULO * 6 - 5)
 
 /* Campos de tamanho variável (tamanho máximo) */
-#define TAM_MAX_NOME_CORREDOR 45 
+#define TAM_MAX_NOME_CORREDOR 45
 #define TAM_MAX_APELIDO 41
 #define TAM_MAX_MARCA 24
 #define TAM_MAX_MODELO 15
@@ -46,10 +50,10 @@ typedef enum {false, true} bool;
 #define TAM_MAX_NOME_PISTA 34
 
 #define MAX_REGISTROS 1000
-#define TAM_REGISTRO_CORREDOR (TAM_ID_CORREDOR+TAM_MAX_NOME_CORREDOR+TAM_MAX_APELIDO+TAM_DATETIME+TAM_FLOAT_NUMBER+QTD_MAX_VEICULO*TAM_MAX_MODELO)
-#define TAM_REGISTRO_VEICULO (TAM_ID_VEICULO+TAM_MAX_MARCA+TAM_MAX_MODELO+TAM_MAX_PODER+TAM_INT_NUMBER*3+TAM_FLOAT_NUMBER+1)
-#define TAM_REGISTRO_PISTA (TAM_ID_PISTA+TAM_MAX_NOME_PISTA+TAM_INT_NUMBER*3+TAM_FLOAT_NUMBER+1)
-#define TAM_REGISTRO_CORRIDA (TAM_ID_PISTA+TAM_DATETIME+TAM_ID_CORREDORES+TAM_ID_VEICULOS-4)
+#define TAM_REGISTRO_CORREDOR (TAM_ID_CORREDOR + TAM_MAX_NOME_CORREDOR + TAM_MAX_APELIDO + TAM_DATETIME + TAM_FLOAT_NUMBER + QTD_MAX_VEICULO * TAM_MAX_MODELO)
+#define TAM_REGISTRO_VEICULO (TAM_ID_VEICULO + TAM_MAX_MARCA + TAM_MAX_MODELO + TAM_MAX_PODER + TAM_INT_NUMBER * 3 + TAM_FLOAT_NUMBER + 1)
+#define TAM_REGISTRO_PISTA (TAM_ID_PISTA + TAM_MAX_NOME_PISTA + TAM_INT_NUMBER * 3 + TAM_FLOAT_NUMBER + 1)
+#define TAM_REGISTRO_CORRIDA (TAM_ID_PISTA + TAM_DATETIME + TAM_ID_CORREDORES + TAM_ID_VEICULOS - 4)
 #define TAM_ARQUIVO_CORREDORES (TAM_REGISTRO_CORREDOR * MAX_REGISTROS + 1)
 #define TAM_ARQUIVO_VEICULOS (TAM_REGISTRO_VEICULO * MAX_REGISTROS + 1)
 #define TAM_ARQUIVO_PISTAS (TAM_REGISTRO_PISTA * MAX_REGISTROS + 1)
@@ -69,147 +73,159 @@ typedef enum {false, true} bool;
 #define TAM_CHAVE_CORREDOR_VEICULO_PRIMARIO_IDX (TAM_ID_CORREDOR - 1)
 
 /* Mensagens padrões */
-#define SUCESSO                          "OK\n"
-#define REGS_PERCORRIDOS                 "Registros percorridos:"
-#define INDICE_CRIADO                    "Indice %s criado com sucesso!\n"
+#define SUCESSO "OK\n"
+#define REGS_PERCORRIDOS "Registros percorridos:"
+#define INDICE_CRIADO "Indice %s criado com sucesso!\n"
 #define AVISO_NENHUM_REGISTRO_ENCONTRADO "AVISO: Nenhum registro encontrado\n"
-#define ERRO_OPCAO_INVALIDA              "ERRO: Opcao invalida\n"
-#define ERRO_MEMORIA_INSUFICIENTE        "ERRO: Memoria insuficiente\n"
-#define ERRO_PK_REPETIDA                 "ERRO: Ja existe um registro com a chave %s\n"
-#define ERRO_REGISTRO_NAO_ENCONTRADO     "ERRO: Registro nao encontrado\n"
-#define ERRO_SALDO_NAO_SUFICIENTE        "ERRO: Saldo insuficiente\n"
-#define ERRO_VEICULO_REPETIDO          "ERRO: O corredor %s ja possui o veiculo %s\n"
-#define ERRO_CORREDOR_VEICULO            "ERRO: O corredor %s nao possui veiculo %s\n"
-#define ERRO_VALOR_INVALIDO              "ERRO: Valor invalido\n"
-#define ERRO_ARQUIVO_VAZIO               "ERRO: Arquivo vazio\n"
-#define ERRO_NAO_IMPLEMENTADO            "ERRO: Funcao %s nao implementada\n"
+#define ERRO_OPCAO_INVALIDA "ERRO: Opcao invalida\n"
+#define ERRO_MEMORIA_INSUFICIENTE "ERRO: Memoria insuficiente\n"
+#define ERRO_PK_REPETIDA "ERRO: Ja existe um registro com a chave %s\n"
+#define ERRO_REGISTRO_NAO_ENCONTRADO "ERRO: Registro nao encontrado\n"
+#define ERRO_SALDO_NAO_SUFICIENTE "ERRO: Saldo insuficiente\n"
+#define ERRO_VEICULO_REPETIDO "ERRO: O corredor %s ja possui o veiculo %s\n"
+#define ERRO_CORREDOR_VEICULO "ERRO: O corredor %s nao possui veiculo %s\n"
+#define ERRO_VALOR_INVALIDO "ERRO: Valor invalido\n"
+#define ERRO_ARQUIVO_VAZIO "ERRO: Arquivo vazio\n"
+#define ERRO_NAO_IMPLEMENTADO "ERRO: Funcao %s nao implementada\n"
 
 /*Taxa fixa para calculo de prêmio e taxa de inscrição*/
 #define TX_FIXA 100
 
 /* Registro de Corredor */
-typedef struct {
-    char id_corredor[TAM_ID_CORREDOR];
-    char nome[TAM_MAX_NOME_CORREDOR];
-    char apelido[TAM_MAX_APELIDO];
-    char cadastro[TAM_DATETIME];
-    double saldo;
-    char veiculos[QTD_MAX_VEICULO][TAM_MAX_MODELO];
+typedef struct
+{
+	char id_corredor[TAM_ID_CORREDOR];
+	char nome[TAM_MAX_NOME_CORREDOR];
+	char apelido[TAM_MAX_APELIDO];
+	char cadastro[TAM_DATETIME];
+	double saldo;
+	char veiculos[QTD_MAX_VEICULO][TAM_MAX_MODELO];
 } Corredor;
- 
+
 /* Registro de Veiculo */
-typedef struct {
-    char id_veiculo[TAM_ID_VEICULO];
-    char marca[TAM_MAX_MARCA];
-    char modelo[TAM_MAX_MODELO];
-    char poder[TAM_MAX_PODER];
-    int velocidade;
-    int aceleracao;
-    int peso;
-    double preco;
+typedef struct
+{
+	char id_veiculo[TAM_ID_VEICULO];
+	char marca[TAM_MAX_MARCA];
+	char modelo[TAM_MAX_MODELO];
+	char poder[TAM_MAX_PODER];
+	int velocidade;
+	int aceleracao;
+	int peso;
+	double preco;
 } Veiculo;
 
 /* Registro de Pista */
-typedef struct {
-    char id_pista[TAM_ID_PISTA];
-    char nome[TAM_MAX_NOME_PISTA];
-    int dificuldade;
-    int distancia;
-    int recorde;
-    double taxa_inscricao;
+typedef struct
+{
+	char id_pista[TAM_ID_PISTA];
+	char nome[TAM_MAX_NOME_PISTA];
+	int dificuldade;
+	int distancia;
+	int recorde;
 } Pista;
 
 /* Registro de Corrida */
-typedef struct {
-    char id_pista[TAM_ID_PISTA];
-    char ocorrencia[TAM_DATETIME];
-    char id_corredores[TAM_ID_CORREDORES];
-    char id_veiculos[TAM_ID_VEICULOS];
+typedef struct
+{
+	char id_pista[TAM_ID_PISTA];
+	char ocorrencia[TAM_DATETIME];
+	char id_corredores[TAM_ID_CORREDORES];
+	char id_veiculos[TAM_ID_VEICULOS];
 } Corrida;
 
 /*----- Registros dos índices -----*/
- 
+
 /* Struct para o índice primário dos corredores */
-typedef struct {
-    char id_corredor[TAM_ID_CORREDOR];
-    int rrn;
+typedef struct
+{
+	char id_corredor[TAM_ID_CORREDOR];
+	int rrn;
 } corredores_index;
 
 /* Struct para o índice primário dos veículos */
-typedef struct {
-    char id_veiculo[TAM_ID_VEICULO];
-    int rrn;
+typedef struct
+{
+	char id_veiculo[TAM_ID_VEICULO];
+	int rrn;
 } veiculos_index;
 
 /* Struct para índice primário das pistas */
-typedef struct {
-    char id_pista[TAM_ID_PISTA];
-    int rrn;
+typedef struct
+{
+	char id_pista[TAM_ID_PISTA];
+	int rrn;
 } pistas_index;
 
 /* Struct para índice primário das corridas*/
-typedef struct {
-    char ocorrencia[TAM_DATETIME];
-    char id_pista[TAM_ID_PISTA];
-    int rrn;
+typedef struct
+{
+	char ocorrencia[TAM_DATETIME];
+	char id_pista[TAM_ID_PISTA];
+	int rrn;
 } corridas_index;
 
 /* Struct para o índice secundário dos nomes das pistas */
-typedef struct {
-    char nome[TAM_MAX_NOME_PISTA];
-    char id_pista[TAM_ID_PISTA];
+typedef struct
+{
+	char nome[TAM_MAX_NOME_PISTA];
+	char id_pista[TAM_ID_PISTA];
 } nome_pista_index;
 
 /* Struct para o índice secundário com o preço dos veículos */
-typedef struct {
-    double preco;
-    char id_veiculo[TAM_ID_VEICULO];
+typedef struct
+{
+	double preco;
+	char id_veiculo[TAM_ID_VEICULO];
 } preco_veiculo_index;
- 
+
 /* Struct para o índice secundário dos modelos de veículo (lista invertida) */
-typedef struct {
-    char chave_secundaria[TAM_MAX_MODELO];   //string com o modelo do veículo
-    int primeiro_indice;
+typedef struct
+{
+	char chave_secundaria[TAM_MAX_MODELO]; // string com o modelo do veículo
+	int primeiro_indice;
 } corredor_veiculos_secundario_index;
- 
+
 /* Struct para o índice primário dos modelos de veículo (lista invertida) */
-typedef struct {
-    char chave_primaria[TAM_ID_CORREDOR];   //string com o CPF do corredor
-    int proximo_indice;
+typedef struct
+{
+	char chave_primaria[TAM_ID_CORREDOR]; // string com o CPF do corredor
+	int proximo_indice;
 } corredor_veiculos_primario_index;
- 
+
 /* Struct para os parâmetros de uma lista invertida */
-typedef struct {
-    // Ponteiro para o índice secundário
-    corredor_veiculos_secundario_index *corredor_veiculos_secundario_idx;
- 
-    // Ponteiro para o arquivo de índice primário
-    corredor_veiculos_primario_index *corredor_veiculos_primario_idx;
- 
-    // Quantidade de registros de índice secundário
-    unsigned qtd_registros_secundario;
- 
-    // Quantidade de registros de índice primário
-    unsigned qtd_registros_primario;
- 
-    // Tamanho de uma chave secundária nesse índice
-    unsigned tam_chave_secundaria;
- 
-    // Tamanho de uma chave primária nesse índice
-    unsigned tam_chave_primaria;
- 
-    // Função utilizada para comparar as chaves do índice secundário.
-    // Igual às funções de comparação do bsearch e qsort.
-    int (*compar)(const void *key, const void *elem);
+typedef struct
+{
+	// Ponteiro para o índice secundário
+	corredor_veiculos_secundario_index *corredor_veiculos_secundario_idx;
+
+	// Ponteiro para o arquivo de índice primário
+	corredor_veiculos_primario_index *corredor_veiculos_primario_idx;
+
+	// Quantidade de registros de índice secundário
+	unsigned qtd_registros_secundario;
+
+	// Quantidade de registros de índice primário
+	unsigned qtd_registros_primario;
+
+	// Tamanho de uma chave secundária nesse índice
+	unsigned tam_chave_secundaria;
+
+	// Tamanho de uma chave primária nesse índice
+	unsigned tam_chave_primaria;
+
+	// Função utilizada para comparar as chaves do índice secundário.
+	// Igual às funções de comparação do bsearch e qsort.
+	int (*compar)(const void *key, const void *elem);
 } inverted_list;
- 
+
 /* Variáveis globais */
 /* Arquivos de dados */
 char ARQUIVO_CORREDORES[TAM_ARQUIVO_CORREDORES];
 char ARQUIVO_VEICULOS[TAM_ARQUIVO_VEICULOS];
 char ARQUIVO_PISTAS[TAM_ARQUIVO_PISTAS];
 char ARQUIVO_CORRIDAS[TAM_ARQUIVO_CORRIDAS];
- 
+
 /* Índices */
 corredores_index *corredores_idx = NULL;
 veiculos_index *veiculos_idx = NULL;
@@ -218,12 +234,12 @@ corridas_index *corridas_idx = NULL;
 nome_pista_index *nome_pista_idx = NULL;
 preco_veiculo_index *preco_veiculo_idx = NULL;
 inverted_list corredor_veiculos_idx = {
-    .corredor_veiculos_secundario_idx = NULL,
-    .corredor_veiculos_primario_idx = NULL,
-    .qtd_registros_secundario = 0,
-    .qtd_registros_primario = 0,
-    .tam_chave_secundaria = TAM_CHAVE_CORREDOR_VEICULO_SECUNDARIO_IDX,
-    .tam_chave_primaria = TAM_CHAVE_CORREDOR_VEICULO_PRIMARIO_IDX,
+		.corredor_veiculos_secundario_idx = NULL,
+		.corredor_veiculos_primario_idx = NULL,
+		.qtd_registros_secundario = 0,
+		.qtd_registros_primario = 0,
+		.tam_chave_secundaria = TAM_CHAVE_CORREDOR_VEICULO_SECUNDARIO_IDX,
+		.tam_chave_primaria = TAM_CHAVE_CORREDOR_VEICULO_PRIMARIO_IDX,
 };
 
 /* Funções auxiliares para o qsort.
@@ -237,7 +253,7 @@ int qsort_data_idx(const void *a, const void *b);
 int qsort_nome_pista_idx(const void *a, const void *b);
 int qsort_preco_veiculo_idx(const void *a, const void *b);
 int qsort_corredor_veiculos_secundario_idx(const void *a, const void *b);
- 
+
 /* Contadores */
 unsigned qtd_registros_corredores = 0;
 unsigned qtd_registros_veiculos = 0;
@@ -249,25 +265,24 @@ uint64_t prng_seed;
 void prng_srand(uint64_t value);
 uint64_t prng_rand();
 void new_uuid(char buffer[37]);
- 
+
 /* Funções de manipulação de data */
 time_t epoch;
 
-#define YEAR0                   1900
-#define EPOCH_YR                1970
-#define SECS_DAY                (24L * 60L * 60L)
-#define LEAPYEAR(year)          (!((year) % 4) && (((year) % 100) || !((year) % 400)))
-#define YEARSIZE(year)          (LEAPYEAR(year) ? 366 : 365)
+#define YEAR0 1900
+#define EPOCH_YR 1970
+#define SECS_DAY (24L * 60L * 60L)
+#define LEAPYEAR(year) (!((year) % 4) && (((year) % 100) || !((year) % 400)))
+#define YEARSIZE(year) (LEAPYEAR(year) ? 366 : 365)
 
-#define TIME_MAX                2147483647L
+#define TIME_MAX 2147483647L
 
-long _dstbias = 0;                  // Offset for Daylight Saving Time
-long _timezone = 0;                 // Difference in seconds between GMT and local time
+long _dstbias = 0;	// Offset for Daylight Saving Time
+long _timezone = 0; // Difference in seconds between GMT and local time
 
 const int _ytab[2][12] = {
-    {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
-    {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
-};
+		{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
+		{31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}};
 
 struct tm *gmtime_r(const time_t *timer, struct tm *tmbuf);
 time_t mktime(struct tm *tmbuf);
@@ -293,14 +308,14 @@ bool exibir_corredor(int rrn);
 bool exibir_veiculo(int rrn);
 bool exibir_pista(int rrn);
 bool exibir_corrida(int rrn);
- 
+
 /* Recupera do arquivo o registro com o RRN informado
  * e retorna os dados nas structs Usuario, Curso e Inscricao */
 Corredor recuperar_registro_corredor(int rrn);
 Veiculo recuperar_registro_veiculo(int rrn);
 Pista recuperar_registro_pista(int rrn);
 Corrida recuperar_registro_corrida(int rrn);
- 
+
 /* Escreve em seu respectivo arquivo na posição informada (RRN) */
 void escrever_registro_corredor(Corredor c, int rrn);
 void escrever_registro_veiculo(Veiculo v, int rrn);
@@ -435,9 +450,9 @@ bool inverted_list_secondary_search(int *result, bool exibir_caminho, char *chav
 int inverted_list_primary_search(char result[][TAM_ID_CORREDOR], bool exibir_caminho, int indice, int *indice_final, inverted_list *t);
 
 /* Funções auxiliares */
-char* strpadright(char *str, char pad, unsigned size);
-char* strupr(char *str);
-char* strlower(char *str);
+char *strpadright(char *str, char pad, unsigned size);
+char *strupr(char *str);
+char *strlower(char *str);
 
 /* Funções de busca binária */
 
@@ -462,8 +477,8 @@ char* strlower(char *str);
  *                     +1 = sucessor : retorna o elemento SUCESSOR (o que apareceria imediatamente depois do elemento procurado, caso fosse encontrado).
  * @return Retorna o elemento encontrado ou NULL se não encontrou.
  */
-void* busca_binaria_com_reps(const void *key, const void *base0, size_t nmemb, size_t size, int (*compar)(const void *, const void *), bool exibir_caminho, int posicao_caso_repetido, int retorno_se_nao_encontrado);
-void* busca_binaria(const void *key, const void *base0, size_t nmemb, size_t size, int (*compar)(const void *, const void *), bool exibir_caminho, int retorno_se_nao_encontrado);
+void *busca_binaria_com_reps(const void *key, const void *base0, size_t nmemb, size_t size, int (*compar)(const void *, const void *), bool exibir_caminho, int posicao_caso_repetido, int retorno_se_nao_encontrado);
+void *busca_binaria(const void *key, const void *base0, size_t nmemb, size_t size, int (*compar)(const void *, const void *), bool exibir_caminho, int retorno_se_nao_encontrado);
 
 /*extra*/
 int qsort_string_modelo(const void *a, const void *b);
@@ -473,16 +488,18 @@ int qsort_string_modelo(const void *a, const void *b);
  * ======= NÃO ALTERAR E NÃO COLAR NO AVA! VÁ DIRETO PARA A LINHA 310 ======== */
 
 /* Funções de geração determinística de números pseudo-aleatórios */
-void prng_srand(uint64_t value) {
+void prng_srand(uint64_t value)
+{
 	prng_seed = value;
 }
 
-uint64_t prng_rand() {
+uint64_t prng_rand()
+{
 	// https://en.wikipedia.org/wiki/Xorshift#xorshift*
 	uint64_t x = prng_seed; // O estado deve ser iniciado com um valor diferente de 0
-	x ^= x >> 12;			// a
-	x ^= x << 25;			// b
-	x ^= x >> 27;			// c
+	x ^= x >> 12;						// a
+	x ^= x << 25;						// b
+	x ^= x >> 27;						// c
 	prng_seed = x;
 	return x * UINT64_C(0x2545F4914F6CDD1D);
 }
@@ -503,7 +520,8 @@ uint64_t prng_rand() {
  * @param buffer String de tamanho 37 no qual será escrito
  * o UUID. É terminado pelo caractere <code>\0</code>.
  */
-void new_uuid(char buffer[37]) {
+void new_uuid(char buffer[37])
+{
 	uint64_t r1 = prng_rand();
 	uint64_t r2 = prng_rand();
 
@@ -511,7 +529,8 @@ void new_uuid(char buffer[37]) {
 }
 
 /* Funções de manipulação de data */
-struct tm *gmtime_r(const time_t *timer, struct tm *tmbuf) {
+struct tm *gmtime_r(const time_t *timer, struct tm *tmbuf)
+{
 	// based on http://www.jbox.dk/sanos/source/lib/time.c.html
 	time_t time = *timer;
 	unsigned long dayclock, dayno;
@@ -524,23 +543,26 @@ struct tm *gmtime_r(const time_t *timer, struct tm *tmbuf) {
 	tmbuf->tm_min = (dayclock % 3600) / 60;
 	tmbuf->tm_hour = dayclock / 3600;
 	tmbuf->tm_wday = (dayno + 4) % 7; // Day 0 was a thursday
-	while (dayno >= (unsigned long) YEARSIZE(year)) {
+	while (dayno >= (unsigned long)YEARSIZE(year))
+	{
 		dayno -= YEARSIZE(year);
 		year++;
 	}
 	tmbuf->tm_year = year - YEAR0;
 	tmbuf->tm_yday = dayno;
 	tmbuf->tm_mon = 0;
-	while (dayno >= (unsigned long) _ytab[LEAPYEAR(year)][tmbuf->tm_mon]) {
-        dayno -= _ytab[LEAPYEAR(year)][tmbuf->tm_mon];
-        tmbuf->tm_mon++;
-    }
+	while (dayno >= (unsigned long)_ytab[LEAPYEAR(year)][tmbuf->tm_mon])
+	{
+		dayno -= _ytab[LEAPYEAR(year)][tmbuf->tm_mon];
+		tmbuf->tm_mon++;
+	}
 	tmbuf->tm_mday = dayno + 1;
 	tmbuf->tm_isdst = 0;
 	return tmbuf;
 }
 
-time_t mktime(struct tm *tmbuf) {
+time_t mktime(struct tm *tmbuf)
+{
 	// based on http://www.jbox.dk/sanos/source/lib/time.c.html
 	long day, year;
 	int tm_year;
@@ -551,43 +573,51 @@ time_t mktime(struct tm *tmbuf) {
 
 	tmbuf->tm_min += tmbuf->tm_sec / 60;
 	tmbuf->tm_sec %= 60;
-	if (tmbuf->tm_sec < 0) {
-        tmbuf->tm_sec += 60;
-        tmbuf->tm_min--;
-    }
+	if (tmbuf->tm_sec < 0)
+	{
+		tmbuf->tm_sec += 60;
+		tmbuf->tm_min--;
+	}
 	tmbuf->tm_hour += tmbuf->tm_min / 60;
 	tmbuf->tm_min = tmbuf->tm_min % 60;
-	if (tmbuf->tm_min < 0) {
-        tmbuf->tm_min += 60;
-        tmbuf->tm_hour--;
-    }
+	if (tmbuf->tm_min < 0)
+	{
+		tmbuf->tm_min += 60;
+		tmbuf->tm_hour--;
+	}
 	day = tmbuf->tm_hour / 24;
-	tmbuf->tm_hour= tmbuf->tm_hour % 24;
-    if (tmbuf->tm_hour < 0) {
-        tmbuf->tm_hour += 24;
-        day--;
-    }
+	tmbuf->tm_hour = tmbuf->tm_hour % 24;
+	if (tmbuf->tm_hour < 0)
+	{
+		tmbuf->tm_hour += 24;
+		day--;
+	}
 	tmbuf->tm_year += tmbuf->tm_mon / 12;
 	tmbuf->tm_mon %= 12;
-	if (tmbuf->tm_mon < 0) {
-        tmbuf->tm_mon += 12;
-        tmbuf->tm_year--;
-    }
+	if (tmbuf->tm_mon < 0)
+	{
+		tmbuf->tm_mon += 12;
+		tmbuf->tm_year--;
+	}
 	day += (tmbuf->tm_mday - 1);
-	while (day < 0) {
-        if(--tmbuf->tm_mon < 0) {
-            tmbuf->tm_year--;
-            tmbuf->tm_mon = 11;
-        }
-        day += _ytab[LEAPYEAR(YEAR0 + tmbuf->tm_year)][tmbuf->tm_mon];
-    }
-	while (day >= _ytab[LEAPYEAR(YEAR0 + tmbuf->tm_year)][tmbuf->tm_mon]) {
-        day -= _ytab[LEAPYEAR(YEAR0 + tmbuf->tm_year)][tmbuf->tm_mon];
-        if (++(tmbuf->tm_mon) == 12) {
-            tmbuf->tm_mon = 0;
-            tmbuf->tm_year++;
-        }
-    }
+	while (day < 0)
+	{
+		if (--tmbuf->tm_mon < 0)
+		{
+			tmbuf->tm_year--;
+			tmbuf->tm_mon = 11;
+		}
+		day += _ytab[LEAPYEAR(YEAR0 + tmbuf->tm_year)][tmbuf->tm_mon];
+	}
+	while (day >= _ytab[LEAPYEAR(YEAR0 + tmbuf->tm_year)][tmbuf->tm_mon])
+	{
+		day -= _ytab[LEAPYEAR(YEAR0 + tmbuf->tm_year)][tmbuf->tm_mon];
+		if (++(tmbuf->tm_mon) == 12)
+		{
+			tmbuf->tm_mon = 0;
+			tmbuf->tm_year++;
+		}
+	}
 	tmbuf->tm_mday = day + 1;
 	year = EPOCH_YR;
 	if (tmbuf->tm_year < year - YEAR0)
@@ -613,10 +643,11 @@ time_t mktime(struct tm *tmbuf) {
 	day += (tm_year - year) / 400 + ((tm_year % 400) && tm_year % 400 < year % 400);
 
 	yday = month = 0;
-	while (month < tmbuf->tm_mon) {
-        yday += _ytab[LEAPYEAR(tm_year)][month];
-        month++;
-    }
+	while (month < tmbuf->tm_mon)
+	{
+		yday += _ytab[LEAPYEAR(tm_year)][month];
+		month++;
+	}
 	yday += (tmbuf->tm_mday - 1);
 	if (day + yday < 0)
 		overflow++;
@@ -632,17 +663,21 @@ time_t mktime(struct tm *tmbuf) {
 	seconds += day * SECS_DAY;
 
 	// Now adjust according to timezone and daylight saving time
-	if (((_timezone > 0) && (TIME_MAX - _timezone < seconds)) || 
-        ((_timezone < 0) && (seconds < -_timezone))) {
-        overflow++;
-    }
+	if (((_timezone > 0) && (TIME_MAX - _timezone < seconds)) ||
+			((_timezone < 0) && (seconds < -_timezone)))
+	{
+		overflow++;
+	}
 	seconds += _timezone;
 
-	if (tmbuf->tm_isdst) {
-        dst = _dstbias;
-    } else {
-        dst = 0;
-    }
+	if (tmbuf->tm_isdst)
+	{
+		dst = _dstbias;
+	}
+	else
+	{
+		dst = 0;
+	}
 
 	if (dst > seconds)
 		overflow++; // dst is always non-negative
@@ -656,22 +691,25 @@ time_t mktime(struct tm *tmbuf) {
 	return (time_t)seconds;
 }
 
-bool set_time(char *date) {
+bool set_time(char *date)
+{
 	// http://www.cplusplus.com/reference/ctime/mktime/
 	struct tm tm_;
 
-	if (strlen(date) == TAM_DATETIME-1 && sscanf(date, "%4d%2d%2d%2d%2d", &tm_.tm_year, &tm_.tm_mon, &tm_.tm_mday, &tm_.tm_hour, &tm_.tm_min) == 5) {
-        tm_.tm_year -= 1900;
-        tm_.tm_mon -= 1;
-        tm_.tm_sec = 0;
-        tm_.tm_isdst = -1;
-        epoch = mktime(&tm_);
-        return true;
-    }
+	if (strlen(date) == TAM_DATETIME - 1 && sscanf(date, "%4d%2d%2d%2d%2d", &tm_.tm_year, &tm_.tm_mon, &tm_.tm_mday, &tm_.tm_hour, &tm_.tm_min) == 5)
+	{
+		tm_.tm_year -= 1900;
+		tm_.tm_mon -= 1;
+		tm_.tm_sec = 0;
+		tm_.tm_isdst = -1;
+		epoch = mktime(&tm_);
+		return true;
+	}
 	return false;
 }
 
-void tick_time() {
+void tick_time()
+{
 	epoch += prng_rand() % 864000; // 10 dias
 }
 
@@ -689,7 +727,8 @@ void tick_time() {
  * @param buffer String de tamanho <code>TAM_DATE</code> no qual será escrita
  * a <i>timestamp</i>. É terminado pelo caractere <code>\0</code>.
  */
-void current_date(char buffer[TAM_DATE]) {
+void current_date(char buffer[TAM_DATE])
+{
 	// http://www.cplusplus.com/reference/ctime/strftime/
 	// http://www.cplusplus.com/reference/ctime/gmtime/
 	// AAAA MM DD
@@ -713,7 +752,8 @@ void current_date(char buffer[TAM_DATE]) {
  * @param buffer String de tamanho <code>TAM_DATETIME</code> no qual será escrita
  * a <i>timestamp</i>. É terminado pelo caractere <code>\0</code>.
  */
-void current_datetime(char buffer[TAM_DATETIME]) {
+void current_datetime(char buffer[TAM_DATETIME])
+{
 	// http://www.cplusplus.com/reference/ctime/strftime/
 	// http://www.cplusplus.com/reference/ctime/gmtime/
 	// AAAA MM DD HH MM
@@ -724,21 +764,24 @@ void current_datetime(char buffer[TAM_DATETIME]) {
 }
 
 /* Remove comentários (--) e caracteres whitespace do começo e fim de uma string */
-void clear_input(char *str) {
+void clear_input(char *str)
+{
 	char *ptr = str;
 	int len = 0;
 
-	for (; ptr[len]; ++len) {
-		if (strncmp(&ptr[len], "--", 2) == 0) {
+	for (; ptr[len]; ++len)
+	{
+		if (strncmp(&ptr[len], "--", 2) == 0)
+		{
 			ptr[len] = '\0';
 			break;
 		}
 	}
 
-	while(len-1 > 0 && isspace(ptr[len-1]))
+	while (len - 1 > 0 && isspace(ptr[len - 1]))
 		ptr[--len] = '\0';
 
-	while(*ptr && isspace(*ptr))
+	while (*ptr && isspace(*ptr))
 		++ptr, --len;
 
 	memmove(str, ptr, len + 1);
@@ -751,22 +794,20 @@ void clear_input(char *str) {
  * @param pad Caractere utilizado para fazer o preenchimento à direita.
  * @param size Tamanho desejado para a string.
  */
-char* strpadright(char *str, char pad, unsigned size);
+char *strpadright(char *str, char pad, unsigned size);
 
 /**
  * Converte uma string str para letras maiúsculas.<br />
  *
  * @param str Ponteiro para a string a ser manipulada.
  */
-char* strupr(char *str);
+char *strupr(char *str);
 
 /**
  * Converte uma string str para letras minúsculas.<br />
  *
  * @param str Ponteiro para a string a ser manipulada.
  */
-char* strlower(char *str);
-
-
+char *strlower(char *str);
 
 #endif

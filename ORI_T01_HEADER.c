@@ -131,10 +131,7 @@ void criar_veiculos_idx()
 	{
 		Veiculo c = recuperar_registro_veiculo(i);
 
-		if (strncmp(c.id_veiculo, "*|", 2) == 0)
-			veiculos_idx[i].rrn = -1;
-		else
-			veiculos_idx[i].rrn = i;
+		veiculos_idx[i].rrn = i;
 
 		strcpy(veiculos_idx[i].id_veiculo, c.id_veiculo);
 	}
@@ -159,10 +156,7 @@ void criar_pistas_idx()
 	{
 		Pista c = recuperar_registro_pista(i);
 
-		if (strncmp(c.id_pista, "*|", 2) == 0)
-			pistas_idx[i].rrn = -1; // registro excluído
-		else
-			pistas_idx[i].rrn = i;
+		pistas_idx[i].rrn = i;
 
 		strcpy(pistas_idx[i].id_pista, c.id_pista);
 	}
@@ -182,15 +176,11 @@ void criar_corridas_idx()
 		printf(ERRO_MEMORIA_INSUFICIENTE);
 		exit(1);
 	}
-
 	for (unsigned i = 0; i < qtd_registros_corridas; ++i)
 	{
 		Corrida c = recuperar_registro_corrida(i);
 
-		if (strncmp(c.ocorrencia, "*|", 2) == 0)
-			corridas_idx[i].rrn = -1; // registro excluído
-		else
-			corridas_idx[i].rrn = i;
+		corridas_idx[i].rrn = i;
 
 		strcpy(corridas_idx[i].ocorrencia, c.ocorrencia);
 		strcpy(corridas_idx[i].id_pista, c.id_pista);
@@ -418,20 +408,37 @@ Corrida recuperar_registro_corrida(int rrn)
 {
 	Corrida c;
 
-	/*IMPLEMENTE A FUNÇÃO AQUI*/
+	/* IMPLEMENTE A FUNÇÃO AQUI */
 	char temp[TAM_REGISTRO_CORRIDA + 1], *p;
+	p = malloc(TAM_REGISTRO_CORRIDA * sizeof(char));
 	strncpy(temp, ARQUIVO_CORRIDAS + (rrn * TAM_REGISTRO_CORRIDA), TAM_REGISTRO_CORRIDA);
 	temp[TAM_REGISTRO_CORRIDA] = '\0';
 
-	p = strtok(temp, ";");
+	strncpy(p, temp, TAM_ID_PISTA - 1);
+	p[TAM_ID_PISTA - 1] = '\0';
 	strcpy(c.id_pista, p);
-	p = strtok(NULL, ";");
-	strcpy(c.ocorrencia, p);
-	p = strtok(NULL, ";");
-	strcpy(c.id_corredores, p);
-	p = strtok(NULL, ";");
-	strcpy(c.id_veiculos, p);
 
+	strncpy(p, temp + TAM_ID_PISTA - 1, TAM_DATETIME - 1);
+	p[TAM_DATETIME - 1] = '\0';
+	strcpy(c.ocorrencia, p);
+	// printf("ocorer: %s\n", p);
+
+	strncpy(p, temp + TAM_DATETIME + TAM_ID_PISTA - 2, TAM_ID_CORREDORES - 1);
+	p[TAM_ID_CORREDORES - 1] = '\0';
+	strcpy(c.id_corredores, p);
+	// printf("veiclu: %s\n", p);
+
+	// strncpy(p, temp + TAM_DATETIME + TAM_ID_PISTA + TAM_ID_CORREDORES, TAM_ID_VEICULOS -1);
+	strcpy(c.id_veiculos, temp + TAM_DATETIME + TAM_ID_PISTA + TAM_ID_CORREDORES - 3);
+	c.id_veiculos[TAM_ID_VEICULOS - 1] = '\0';
+	// printf("roberto: %s\n", p);
+
+	// printf("td: %s\n", temp);
+	// printf("idp: %s\n", c.id_pista);
+	// printf("oco: %s\n", c.ocorrencia);
+	// printf("cor: %s\n", c.id_corredores);
+	// printf("vei: %s\n", c.id_veiculos);
+	free(p);
 	return c;
 }
 
@@ -696,7 +703,7 @@ void comprar_veiculo_menu(char *id_corredor, char *id_veiculo)
 				{
 					if (!strcmp(corredor.veiculos[k], "\0"))
 					{
-						strcpy(corredor.veiculos[k], id_veiculo);
+						strcpy(corredor.veiculos[k], veiculo.modelo);
 						k = 3;
 					}
 				}
@@ -1022,7 +1029,7 @@ void imprimir_corridas_idx_menu()
 	if (corridas_idx == NULL || qtd_registros_corridas == 0)
 		printf(ERRO_ARQUIVO_VAZIO);
 	else
-		for (unsigned i = 0; i < qtd_registros_corredores; ++i)
+		for (unsigned i = 0; i < qtd_registros_corridas; ++i)
 			printf("%s, %s, %d\n", corridas_idx[i].ocorrencia, corridas_idx[i].id_pista, corridas_idx[i].rrn);
 }
 
@@ -1054,7 +1061,7 @@ void imprimir_corredor_veiculos_secundario_idx_menu()
 		printf(ERRO_ARQUIVO_VAZIO);
 	else
 		for (unsigned i = 0; i < corredor_veiculos_idx.qtd_registros_secundario; ++i)
-			printf("%s, %d\n", corredor_veiculos_idx.corredor_veiculos_secundario_idx[i].chave_secundaria, corredor_veiculos_idx.corredor_veiculos_secundario_idx[i].primeiro_indice);
+			printf("%s, %d\n", strupr(corredor_veiculos_idx.corredor_veiculos_secundario_idx[i].chave_secundaria), corredor_veiculos_idx.corredor_veiculos_secundario_idx[i].primeiro_indice);
 }
 
 void imprimir_corredor_veiculos_primario_idx_menu()

@@ -552,14 +552,10 @@ void escrever_registro_corrida(Corrida i, int rrn)
 	char temp[TAM_ARQUIVO_CORRIDAS + 1];
 	temp[0] = '\0';
 
-	strcpy(temp, i.id_pista);
-	strcat(temp, ";");
+	strcat(temp, i.id_pista);
 	strcat(temp, i.ocorrencia);
-	strcat(temp, ";");
-	strcpy(temp, i.id_corredores);
-	strcat(temp, ";");
+	strcat(temp, i.id_corredores);
 	strcat(temp, i.id_veiculos);
-	strcat(temp, ";");
 
 	strpadright(temp, '#', TAM_REGISTRO_CORRIDA);
 
@@ -649,7 +645,8 @@ void adicionar_saldo(char *id_corredor, double valor, bool flag)
 			corredor = recuperar_registro_corredor(found->rrn);
 			corredor.saldo += valor;
 			escrever_registro_corredor(corredor, found->rrn);
-			printf(SUCESSO);
+			if (flag)
+				printf(SUCESSO);
 		}
 	}
 }
@@ -820,7 +817,7 @@ void executar_corrida_menu(char *id_pista, char *ocorrencia, char *id_corredores
 	veiculos_index v_index;
 	pistas_index p_index;
 
-	char c[6][TAM_ID_CORREDOR - 1], v[6][TAM_ID_VEICULO];
+	char c[6][TAM_ID_CORREDOR - 1], v[6][TAM_ID_VEICULO], pk[25];
 	bool err = false;
 
 	strcpy(index.id_pista, id_pista);
@@ -834,26 +831,27 @@ void executar_corrida_menu(char *id_pista, char *ocorrencia, char *id_corredores
 	{
 		for (unsigned i = 0; i < 6; ++i)
 		{
-			printf("primeira\n");
+			// printf("primeira\n");
 			bool dono_veiculo = false;
+
 			strncpy(c[i], id_corredores + (i * (TAM_ID_CORREDOR - 1)), TAM_ID_CORREDOR - 1);
 			// c[i][TAM_ID_CORREDOR-1] = '\0';
 			strcpy(c_index.id_corredor, c[i]);
-			printf("cor: %s\n", c[i]);
+			// printf("cor: %s\n", c[i]);
 			corredores_index *found_c = busca_binaria((void *)&c_index, corredores_idx, qtd_registros_corredores, sizeof(corredores_index), qsort_corredores_idx, false, 0);
 
 			strncpy(v[i], id_veiculos + (i * (TAM_ID_VEICULO - 1)), TAM_ID_VEICULO - 1);
 			v[i][TAM_ID_VEICULO - 1] = '\0';
 			strcpy(v_index.id_veiculo, v[i]);
-			printf("vei: %s\n", v[i]);
+			// printf("vei: %s\n", v[i]);
 
-			veiculos_index *found_v = busca_binaria((void *)&v_index, veiculos_idx, qtd_registros_veiculos, sizeof(veiculos_index), qsort_veiculos_idx, true, 0);
-			printf("passamosdabin\n");
+			veiculos_index *found_v = busca_binaria((void *)&v_index, veiculos_idx, qtd_registros_veiculos, sizeof(veiculos_index), qsort_veiculos_idx, false, 0);
+			// printf("passamosdabin\n");
 			if (found_c != NULL && found_v != NULL && found_p != NULL)
 			{
 				corredor = recuperar_registro_corredor(found_c->rrn);
 				veiculo = recuperar_registro_veiculo(found_v->rrn);
-				printf("horadaupp\n");
+				// printf("horadaupp\n");
 
 				for (unsigned k = 0; k < QTD_MAX_VEICULO; ++k)
 					if (!strcmp(corredor.veiculos[k], veiculo.modelo))
@@ -882,9 +880,9 @@ void executar_corrida_menu(char *id_pista, char *ocorrencia, char *id_corredores
 
 			pista = recuperar_registro_pista(found_p->rrn);
 			double premio = 6 * (TX_FIXA * pista.dificuldade);
-			adicionar_saldo_menu(corredores[0].id_corredor, premio * 0.4);
-			adicionar_saldo_menu(corredores[1].id_corredor, premio * 0.3);
-			adicionar_saldo_menu(corredores[2].id_corredor, premio * 0.2);
+			adicionar_saldo(corredores[0].id_corredor, premio * 0.4, false);
+			adicionar_saldo(corredores[1].id_corredor, premio * 0.3, false);
+			adicionar_saldo(corredores[2].id_corredor, premio * 0.2, false);
 
 			escrever_registro_corrida(corrida, qtd_registros_corridas);
 
@@ -900,7 +898,10 @@ void executar_corrida_menu(char *id_pista, char *ocorrencia, char *id_corredores
 		}
 	}
 	else
-		printf(ERRO_PK_REPETIDA, found->id_pista);
+	{
+		sprintf(pk, "%s%s", found->ocorrencia, found->id_pista);
+		printf(ERRO_PK_REPETIDA, pk);
+	}
 }
 
 /* Busca */

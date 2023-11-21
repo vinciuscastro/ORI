@@ -693,9 +693,9 @@ void comprar_veiculo_menu(char *id_corredor, char *id_veiculo)
 			{
 
 				for (int i = 0; i < QTD_MAX_VEICULO; i++)
-					if (!strcmp(corredor.veiculos[i], id_veiculo))
+					if (!strcmp(corredor.veiculos[i], veiculo.modelo))
 					{
-						printf(ERRO_VEICULO_REPETIDO, id_corredor, id_veiculo);
+						printf(ERRO_VEICULO_REPETIDO, id_corredor, veiculo.id_veiculo);
 						return;
 					}
 
@@ -810,6 +810,97 @@ void cadastrar_pista_menu(char *nome, int dificuldade, int distancia, int record
 void executar_corrida_menu(char *id_pista, char *ocorrencia, char *id_corredores, char *id_veiculos)
 {
 	/*IMPLEMENTE A FUNÇÃO AQUI*/
+	Pista pista;
+	Corrida corrida;
+	Corredor corredor, corredores[6];
+	Veiculo veiculo;
+
+	corridas_index index;
+	corredores_index c_index;
+	veiculos_index v_index;
+	pistas_index p_index;
+
+	char c[6][TAM_ID_CORREDOR - 1], v[6][TAM_ID_VEICULO];
+	bool err = false;
+
+	strcpy(index.id_pista, id_pista);
+	strcpy(index.ocorrencia, ocorrencia);
+	corridas_index *found = busca_binaria((void *)&index, corridas_idx, qtd_registros_corridas, sizeof(corridas_index), qsort_corridas_idx, false, 0);
+
+	strcpy(p_index.id_pista, id_pista);
+	pistas_index *found_p = busca_binaria((void *)&p_index, pistas_idx, qtd_registros_pistas, sizeof(pistas_index), qsort_pistas_idx, false, 0);
+
+	if (found == NULL)
+	{
+		for (unsigned i = 0; i < 6; ++i)
+		{
+			printf("primeira\n");
+			bool dono_veiculo = false;
+			strncpy(c[i], id_corredores + (i * (TAM_ID_CORREDOR - 1)), TAM_ID_CORREDOR - 1);
+			// c[i][TAM_ID_CORREDOR-1] = '\0';
+			strcpy(c_index.id_corredor, c[i]);
+			printf("cor: %s\n", c[i]);
+			corredores_index *found_c = busca_binaria((void *)&c_index, corredores_idx, qtd_registros_corredores, sizeof(corredores_index), qsort_corredores_idx, false, 0);
+
+			strncpy(v[i], id_veiculos + (i * (TAM_ID_VEICULO - 1)), TAM_ID_VEICULO - 1);
+			v[i][TAM_ID_VEICULO - 1] = '\0';
+			strcpy(v_index.id_veiculo, v[i]);
+			printf("vei: %s\n", v[i]);
+
+			veiculos_index *found_v = busca_binaria((void *)&v_index, veiculos_idx, qtd_registros_veiculos, sizeof(veiculos_index), qsort_veiculos_idx, true, 0);
+			printf("passamosdabin\n");
+			if (found_c != NULL && found_v != NULL && found_p != NULL)
+			{
+				corredor = recuperar_registro_corredor(found_c->rrn);
+				veiculo = recuperar_registro_veiculo(found_v->rrn);
+				printf("horadaupp\n");
+
+				for (unsigned k = 0; k < QTD_MAX_VEICULO; ++k)
+					if (!strcmp(corredor.veiculos[k], veiculo.modelo))
+						dono_veiculo = true;
+
+				if (!dono_veiculo)
+				{
+					printf(ERRO_CORREDOR_VEICULO, corredor.id_corredor, veiculo.id_veiculo);
+					err = true;
+				}
+				corredores[i] = corredor;
+			}
+			else
+			{
+				printf(ERRO_REGISTRO_NAO_ENCONTRADO);
+				return;
+			}
+		}
+
+		if (!err)
+		{
+			strcpy(corrida.id_pista, id_pista);
+			strcpy(corrida.ocorrencia, ocorrencia);
+			strcpy(corrida.id_corredores, id_corredores);
+			strcpy(corrida.id_veiculos, id_veiculos);
+
+			pista = recuperar_registro_pista(found_p->rrn);
+			double premio = 6 * (TX_FIXA * pista.dificuldade);
+			adicionar_saldo_menu(corredores[0].id_corredor, premio * 0.4);
+			adicionar_saldo_menu(corredores[1].id_corredor, premio * 0.3);
+			adicionar_saldo_menu(corredores[2].id_corredor, premio * 0.2);
+
+			escrever_registro_corrida(corrida, qtd_registros_corridas);
+
+			strcpy(corridas_idx[qtd_registros_corridas].ocorrencia, ocorrencia);
+			strcpy(corridas_idx[qtd_registros_corridas].id_pista, id_pista);
+			corridas_idx[qtd_registros_corridas].rrn = qtd_registros_corridas;
+
+			qtd_registros_corridas++;
+
+			qsort(corridas_idx, qtd_registros_corridas, sizeof(corridas_index), qsort_corridas_idx);
+
+			printf(SUCESSO);
+		}
+	}
+	else
+		printf(ERRO_PK_REPETIDA, found->id_pista);
 }
 
 /* Busca */
@@ -858,11 +949,42 @@ void listar_corredores_id_menu()
 			exibir_corredor(corredores_idx[i].rrn);
 }
 
+int qsort_corredores_modelo_idx(const void *a, const void *b)
+{
+	return strcmp(((char *)a), ((char *)b));
+}
+
 void listar_corredores_modelo_menu(char *modelo)
 {
-	/*IMPLEMENTE A FUNÇÃO AQUI*/
-	// ????????????????
-	printf(ERRO_NAO_IMPLEMENTADO, "listar_corredores_modelo_menu()");
+	int indice;
+	bool found = inverted_list_secondary_search(&indice, false, modelo, &corredor_veiculos_idx);
+
+	corredores_index index;
+
+	if (found)
+	{
+		char chaves[qtd_registros_corredores][TAM_ID_CORREDOR];
+		for (unsigned i = 0; i < qtd_registros_corredores; ++i)
+		{
+			chaves[i][0] = '\0';
+		}
+		int qtd = inverted_list_primary_search(chaves, true, indice, NULL, &corredor_veiculos_idx);
+		qsort(chaves, qtd, sizeof(chaves[0]), qsort_corredores_modelo_idx);
+
+		for (unsigned i = 0; i < qtd; ++i)
+		{
+			strcpy(index.id_corredor, chaves[i]);
+			corredores_index *found = busca_binaria((void *)&index, corredores_idx, qtd_registros_corredores, sizeof(corredores_index), qsort_corredores_idx, false, 0);
+			if (found == NULL || found->rrn < 0)
+				printf(ERRO_REGISTRO_NAO_ENCONTRADO);
+			else
+				exibir_corredor(found->rrn);
+		}
+	}
+	else
+	{
+		printf(AVISO_NENHUM_REGISTRO_ENCONTRADO);
+	}
 }
 
 void listar_veiculos_compra_menu(char *id_corredor)
@@ -1128,7 +1250,7 @@ bool inverted_list_secondary_search(int *result, bool exibir_caminho, char *chav
 	{
 		if (result)
 			*result = found->primeiro_indice;
-
+		// printf("vim\n");
 		return true;
 	}
 }
@@ -1141,15 +1263,21 @@ int inverted_list_primary_search(char result[][TAM_ID_CORREDOR], bool exibir_cam
 
 	if (exibir_caminho)
 		printf(REGS_PERCORRIDOS);
+
 	while (idx != -1)
 	{
 		if (exibir_caminho)
-			printf(" %s", t->corredor_veiculos_primario_idx[idx].chave_primaria);
-
+			printf(" %d", idx);
+		// printf(" %s", t->corredor_veiculos_primario_idx[idx].chave_primaria);
+		// printf("chegeuaq1\n");
 		if (result)
 			strcpy(result[keys], t->corredor_veiculos_primario_idx[idx].chave_primaria);
+		// printf("chegeuaq2\n");
+
 		if (idx != -1)
-			*indice_final = idx;
+			if (indice_final)
+				*indice_final = idx;
+		// printf("idx: %d\n", idx);
 		idx = t->corredor_veiculos_primario_idx[idx].proximo_indice;
 		keys++;
 	}
@@ -1159,6 +1287,7 @@ int inverted_list_primary_search(char result[][TAM_ID_CORREDOR], bool exibir_cam
 
 	/* if (indice_final)
 	 *indice_final = idx; */
+	// printf("FIANL\n");
 	return keys;
 }
 

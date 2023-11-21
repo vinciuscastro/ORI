@@ -1033,7 +1033,36 @@ void listar_veiculos_compra_menu(char *id_corredor)
 void listar_corridas_periodo_menu(char *data_inicio, char *data_fim)
 {
 	/*IMPLEMENTE A FUNÇÃO AQUI*/
-	printf(ERRO_NAO_IMPLEMENTADO, "listar_corridas_periodo_menu()");
+	corridas_index index_inicio;
+	strcpy(index_inicio.ocorrencia, data_inicio);
+
+	corridas_index *found_inicio = busca_binaria((void *)&index_inicio, corridas_idx, qtd_registros_corridas, sizeof(corridas_index), qsort_data_idx, true, 1);
+
+	if (found_inicio == NULL)
+	{
+		printf(ERRO_REGISTRO_NAO_ENCONTRADO);
+	}
+
+	else
+	{
+		for (unsigned i = 0; i < qtd_registros_corridas; ++i)
+		{
+			// printf("%s\n",corridas_idx[i].ocorrencia);
+			// printf("%s\n",found_inicio->ocorrencia);
+			if (strcmp(corridas_idx[i].ocorrencia, found_inicio->ocorrencia) >= 0)
+			{
+				// printf("PASSEI\n");
+				// printf("%s\n",corridas_idx[i].ocorrencia);
+				// printf("%s\n",data_fim);
+				// printf("%d\n", strcmp(corridas_idx[i].ocorrencia, data_fim));
+				if (strcmp(corridas_idx[i].ocorrencia, data_fim) <= 0)
+				{
+					// printf("OUTROPORA\n");
+					exibir_corrida(corridas_idx[i].rrn);
+				}
+			}
+		}
+	}
 }
 
 /* Liberar espaço */
@@ -1333,6 +1362,15 @@ void *busca_binaria_com_reps(const void *key, const void *base0, size_t nmemb, s
 	}
 	if (exibir_caminho)
 		printf("\n");
+
+	if (retorno_se_nao_encontrado == 1)
+	{
+		return (void *)base + (imax + 1) * size;
+	}
+	else if (retorno_se_nao_encontrado == -1)
+	{
+		return (void *)base + (imin - 1) * size;
+	}
 	return NULL;
 }
 

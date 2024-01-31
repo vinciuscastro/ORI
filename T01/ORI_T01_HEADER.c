@@ -968,11 +968,9 @@ void listar_corridas_periodo_menu(char *data_inicio, char *data_fim)
 	/*IMPLEMENTE A FUNÇÃO AQUI*/
 	corridas_index index_inicio;
 	strcpy(index_inicio.ocorrencia, data_inicio);
-
 	corridas_index *found = busca_binaria((void *)&index_inicio, corridas_idx, qtd_registros_corridas, sizeof(corridas_index), qsort_data_idx, true, 1);
-
 	if (found == NULL)
-		printf(ERRO_REGISTRO_NAO_ENCONTRADO);
+		printf(AVISO_NENHUM_REGISTRO_ENCONTRADO);
 	else
 		for (unsigned i = 0; i < qtd_registros_corridas; ++i)
 			if (strcmp(corridas_idx[i].ocorrencia, found->ocorrencia) >= 0)
